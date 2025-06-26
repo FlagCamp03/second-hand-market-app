@@ -1,19 +1,18 @@
 // src/utils/api.ts
 
 // This file sets up the base Axios instance with a base URL and
-// automatically attaches the token from localStorage to all requests.
-// 本文件配置了基础的 Axios 实例，设置了 base URL，
-// 并为所有请求自动附加本地存储的 token
+// automatically attaches the token from localStorage to all requests
 
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: "/api", // Base path for all API requests
 });
 
+// Add a request interceptor to include the token in headers
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token) config.headers.Authorization = `Bearer ${token}`;
+  const token = localStorage.getItem("token"); // // Get token from localStorage
+  if (token) config.headers.Authorization = `Bearer ${token}`; // Set Authorization header
   return config;
 });
 

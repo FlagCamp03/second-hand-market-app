@@ -1,12 +1,11 @@
 // src/store/auth.ts
 
-// This file defines the global auth state management using Zustand.
-// It stores user info and token, and provides login/logout methods.
-// 本文件使用 Zustand 定义全局用户认证状态，
-// 存储用户信息和 token，并提供登录/登出方法
+// This file defines the global auth state management using Zustand
+// It stores user info and token, and provides login/logout methods
 
 import { create } from 'zustand';
 
+// User info interface
 interface User {
   id: number;
   email: string;
@@ -14,23 +13,25 @@ interface User {
   avatar?: string;
 }
 
+// Zustand state shape for authentication
 interface AuthState {
-  user: User | null;
-  token: string | null;
-  login: (token: string, user: User) => void;
-  logout: () => void;
+  user: User | null; // Currently logged-in user
+  token: string | null; // Authentication token
+  login: (token: string, user: User) => void; // Login method
+  logout: () => void; // Logout method
 }
 
+// Create Zustand store 
 const useAuthStore = create<AuthState>((set) => ({
   user: null,
   token: null,
   login: (token, user) => {
-    set({ token, user });
-    localStorage.setItem('token', token);
+    set({ token, user }); // Update auth state
+    localStorage.setItem("token", token); // Store token in localStorage
   },
   logout: () => {
-    set({ token: null, user: null });
-    localStorage.removeItem('token');
+    set({ token: null, user: null }); // Clear auth state
+    localStorage.removeItem("token"); // Remove token from localStorage
   },
 }));
 
