@@ -3,10 +3,10 @@
 // This file defines the global auth state management using Zustand
 // It stores user info and token, and provides login/logout methods
 
-import { create } from 'zustand';
+import { create } from "zustand";
 
 // User info interface
-interface User {
+export interface User {
   id: number;
   email: string;
   nickname?: string;
@@ -21,7 +21,7 @@ interface AuthState {
   logout: () => void; // Logout method
 }
 
-// Create Zustand store 
+// Create Zustand store
 const useAuthStore = create<AuthState>((set) => ({
   user: null,
   token: null,
