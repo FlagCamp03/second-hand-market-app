@@ -1,5 +1,5 @@
 import React, { ReactHTMLElement, useEffect } from "react";
-import ChatRoom from "../models/ChatRoom";
+import ChatRoomModel from "../models/ChatRoomModel";
 import useAuthStore, { User } from "../../../store/auth";
 import chatRoomStore from "../../../store/message";
 
@@ -28,7 +28,7 @@ const Chats = () => {
     nickname: "test1",
   };
 
-  const chatRooms: ChatRoom[] = [
+  const chatRooms: ChatRoomModel[] = [
     {
       id: 1,
       name: "chat1",

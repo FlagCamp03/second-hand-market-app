@@ -1,21 +1,31 @@
 import React from "react";
+import useAuthStore, { User } from "../../../store/auth";
+import MessageModel from "../models/MessageModel";
 
-const Message = () => {
+const Message = (props) => {
+  // const user: User | null = useAuthStore((state) => state.user || null);
+  const user: User = {
+    id: 300,
+    email: "test@test.com",
+    nickname: "test1",
+    avatar:
+      "https://gips0.baidu.com/it/u=3602773692,1512483864&fm=3028&app=3028&f=JPEG&fmt=auto?w=960&h=1280",
+  };
+  const userName = user.nickname;
+  const message: MessageModel = props.message;
+  const messageSender = message.sender;
+  const bIsUser: Boolean = userName === messageSender;
+  const avaterUrl = bIsUser ? user.avatar : null;
+
   return (
-    <div className="message owner">
+    <div className={bIsUser ? "message owner" : "message"}>
       <div className="messageInfo">
-        <img
-          src="https://pic1.arkoo.com/56D0B40F99F841DF8A2425762AE2565D/picture/o_1i4qop009177v1tgf14db15he1iaj1is.jpg"
-          alt=""
-        />
-        <span>just now</span>
+        {avaterUrl ? <img src={avaterUrl} alt="" /> : null}
+        <span>{message.sentAt}</span>
       </div>
       <div className="messageContent">
-        <p>hello</p>
-        <img
-          src="https://ww2.sinaimg.cn/mw690/61d7678dgy1hvt194v9kqj20p00uuape.jpg"
-          alt=""
-        />
+        <p>{message.content}</p>
+        {/* <img src="" alt="" /> */}
       </div>
     </div>
   );

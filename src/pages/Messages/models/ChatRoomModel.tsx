@@ -1,4 +1,4 @@
-export default interface ChatRoom {
+export default interface ChatRoomModel {
   id: number | null;
   name: string | null;
   buyer: string | null;

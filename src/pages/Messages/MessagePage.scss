@@ -181,7 +181,8 @@
           }
 
           &.owner {
-            flex-direction: row-reverse;
+            // flex-direction: row-reverse;
+            direction: rtl;
 
             .messageContent {
               align-items: flex-end;
@@ -235,6 +236,14 @@
             padding: 10px 15px;
             color: white;
             background-color: #8da4f1;
+            border-radius: 5%;
+          }
+
+          button:active {
+            border: none;
+            padding: 10px 15px;
+            color: white;
+            background-color: #6678b3;
             border-radius: 5%;
           }
         }
