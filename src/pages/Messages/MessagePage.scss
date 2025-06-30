@@ -181,8 +181,8 @@
           }
 
           &.owner {
-            // flex-direction: row-reverse;
-            direction: rtl;
+            flex-direction: row-reverse;
+            // direction: rtl;
 
             .messageContent {
               align-items: flex-end;

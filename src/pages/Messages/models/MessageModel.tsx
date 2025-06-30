@@ -6,3 +6,9 @@ export default interface MessageModel {
   sender?: string | null;
   sentAt: string | null;
 }
+
+export interface SentMessageModel {
+  messageType: string;
+  content: string;
+  sender: string;
+}

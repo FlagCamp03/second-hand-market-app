@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import useAuthStore, { User } from "../../../store/auth";
-import MessageModel from "../models/MessageModel";
+import { SentMessageModel } from "../models/MessageModel";
 import chatRoomStore from "../../../store/message";
+import { sendMessage } from "../../../utils/messageApi";
 
 const Input = () => {
   const [sendText, setSendText] = useState<string>("");
@@ -11,22 +12,27 @@ const Input = () => {
   const user: User = {
     id: 300,
     email: "test@test.com",
-    nickname: "test1",
+    nickname: "testbuyer1",
   };
 
-  const handleSendClick = async () => {
-    setSendText("");
-
+  const handleSendClick = () => {
     const now = new Date();
     const formattedTime = now.toLocaleTimeString();
 
-    const sendMessage: MessageModel = {
-      message_type: "text",
+    const sentMessage: SentMessageModel = {
+      messageType: "text",
       content: sendText,
-      chatRoomId: chatRoomId,
-      sender: user.nickname,
-      sentAt: formattedTime,
+      sender: user.nickname!,
     };
+    sendMessage(chatRoomId, sentMessage)
+      .then(() => {
+        console.log("successfully sent");
+      })
+      .catch((err) => {
+        console.log("err");
+      })
+      .finally(() => {});
+    setSendText("");
   };
 
   return (

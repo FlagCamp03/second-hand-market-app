@@ -7,7 +7,7 @@ const Message = (props) => {
   const user: User = {
     id: 300,
     email: "test@test.com",
-    nickname: "test1",
+    nickname: "testbuyer1",
     avatar:
       "https://gips0.baidu.com/it/u=3602773692,1512483864&fm=3028&app=3028&f=JPEG&fmt=auto?w=960&h=1280",
   };
@@ -17,11 +17,21 @@ const Message = (props) => {
   const bIsUser: Boolean = userName === messageSender;
   const avaterUrl = bIsUser ? user.avatar : null;
 
+  let date: Date | null = null;
+  let formattedDate;
+  if (message.sentAt) {
+    date = new Date(message.sentAt);
+    formattedDate = `${date.getHours().toString().padStart(2, "0")}:${date
+      .getMinutes()
+      .toString()
+      .padStart(2, "0")}`;
+  }
+
   return (
     <div className={bIsUser ? "message owner" : "message"}>
       <div className="messageInfo">
         {avaterUrl ? <img src={avaterUrl} alt="" /> : null}
-        <span>{message.sentAt}</span>
+        <span>{formattedDate}</span>
       </div>
       <div className="messageContent">
         <p>{message.content}</p>

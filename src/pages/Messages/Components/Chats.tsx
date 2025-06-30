@@ -1,18 +1,62 @@
-import React, { ReactHTMLElement, useEffect } from "react";
+import React, { ReactHTMLElement, useEffect, useState } from "react";
 import ChatRoomModel from "../models/ChatRoomModel";
 import useAuthStore, { User } from "../../../store/auth";
 import chatRoomStore from "../../../store/message";
+import { getChatRoomsByUser } from "../../../utils/messageApi";
 
 const Chats = () => {
   // Get user info , use fake datas for now
   // const user: User | null = useAuthStore((state) => state.user || null);
+  const user: User = {
+    id: 300,
+    email: "test@test.com",
+    nickname: "testbuyer1",
+  };
 
   const setChatRoomInfo = chatRoomStore((state) => state.setChatRoomInfo);
   const chatRoomId = chatRoomStore((state) => state.chatRoomId);
 
+  const [chatRooms, setChatRooms] = useState<ChatRoomModel[]>([]);
+
+  // Fake datas
+
+  // setChatRooms([
+  //   {
+  //     id: 1,
+  //     name: "chat1",
+  //     buyer: "test1",
+  //     seller: "testSellor1",
+  //     itemId: 1,
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "chat2",
+  //     buyer: "testBuyer1",
+  //     seller: "test1",
+  //     itemId: 2,
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "chat3",
+  //     buyer: "test1",
+  //     seller: "testSellor2",
+  //     itemId: 3,
+  //   },
+  // ]);
+
   useEffect(() => {
     // Get chatRooms
-  }, []);
+    if (user?.id) {
+      getChatRoomsByUser(user.id)
+        .then((data) => {
+          console.log(data);
+          setChatRooms(data);
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    }
+  }, [user?.id]);
 
   const handleClickChatRoom = (chatRoomId: number, chatParterName: string) => {
     setChatRoomInfo(chatRoomId, chatParterName);
@@ -20,42 +64,11 @@ const Chats = () => {
     console.log(chatParterName);
   };
 
-  // Fake datas
-
-  const user: User = {
-    id: 300,
-    email: "test@test.com",
-    nickname: "test1",
-  };
-
-  const chatRooms: ChatRoomModel[] = [
-    {
-      id: 1,
-      name: "chat1",
-      buyer: "test1",
-      seller: "testSellor1",
-      itemId: 1,
-    },
-    {
-      id: 2,
-      name: "chat2",
-      buyer: "testBuyer1",
-      seller: "test1",
-      itemId: 2,
-    },
-    {
-      id: 3,
-      name: "chat3",
-      buyer: "test1",
-      seller: "testSellor2",
-      itemId: 3,
-    },
-  ];
-
   return (
     <div className="chats">
       {chatRooms.map((chatroom) => (
         <div
+          key={chatroom.id}
           className="userChat"
           onClick={() => {
             chatroom.buyer === user.nickname
