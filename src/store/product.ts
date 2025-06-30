@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { Product, CreateProductRequest, createProductApi, getProductsApi } from '../services/productApi';
+import { mockCreateProduct, mockGetProducts } from '../services/mockData';
 
 interface ProductState {
   products: Product[];
@@ -20,7 +21,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
   createProduct: async (data: CreateProductRequest) => {
     try {
       set({ loading: true, error: null });
-      const newProduct = await createProductApi(data);
+      const newProduct = await mockCreateProduct(data);
       set((state) => ({
         products: [newProduct, ...state.products],
         loading: false,
@@ -37,7 +38,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
   fetchProducts: async (params?: any) => {
     try {
       set({ loading: true, error: null });
-      const response = await getProductsApi(params);
+      const response = await mockGetProducts(params);
       set({
         products: response.items,
         loading: false,
