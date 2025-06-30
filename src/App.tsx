@@ -17,9 +17,12 @@ import {
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
+import ProductCreate from "./pages/ProductCreate";
+import Home from "./pages/Home";
 
 // Layout Component
 import Layout from "./components/Layout";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App: React.FC = () => {
   return (
@@ -28,13 +31,23 @@ const App: React.FC = () => {
       <Routes>
         {/* Wrap all routes with a common layout */}
         <Route path="/" element={<Layout />}>
-          {/* Redirect default route to /login */}
-          <Route index element={<Navigate to="/login" />} />
+          {/* Default route shows home page */}
+          <Route index element={<Home />} />
 
           {/* Define routes */}
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="profile" element={<Profile />} />
+          
+          {/* Protected routes - require authentication */}
+          <Route 
+            path="product/new" 
+            element={
+              <ProtectedRoute>
+                <ProductCreate />
+              </ProtectedRoute>
+            } 
+          />
         </Route>
       </Routes>
     </Router>

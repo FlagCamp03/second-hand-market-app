@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { Form, Input, Button, message } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { loginApi, registerApi } from '../services/authApi';
 import useAuthStore from '../store/auth';
 
@@ -18,6 +18,7 @@ interface Props {
 // Reusable authentication form for login/register
 const AuthForm: React.FC<Props> = ({ type }) => {
   const navigate = useNavigate(); // for redirection after success
+  const location = useLocation(); // to get the redirect location
   const login = useAuthStore((state) => state.login); // Zustand action to set login state
 
   // Handle form submit
@@ -33,7 +34,10 @@ const AuthForm: React.FC<Props> = ({ type }) => {
       // Show success message and store user info + token
       message.success(`${type === "login" ? "Login" : "Register"} successful`);
       login(res.token, res.user); // update store
-      navigate("/"); // redirect to homepage
+      
+      // Redirect to the intended page or home
+      const from = (location.state as any)?.from?.pathname || "/";
+      navigate(from, { replace: true });
     } catch (err: any) {
       // Show error message if request fails
       message.error(err.response?.data?.message || "Something went wrong");
